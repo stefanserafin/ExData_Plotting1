@@ -41,7 +41,21 @@ data_set <- data_set %>% unite("DateTime", Date:Time, remove= FALSE, sep = " ")
 data_set$DateTime <- as.POSIXct(data_set$DateTime, f= "%Y-%m-%d %H:%M:%S")
 data_set$Time <- as.POSIXct(data_set$Time, f = "%H:%M:%S")
 
-hist(data_set$GlobalActivePower, main = "Global Active Power", xlab ="Global Active Power (kilowatts)",col = "red")
+par(mfrow= c(2,2))
+with(data_set, plot(data_set$DateTime, data_set$GlobalActivePower, type = "n", xlab = "", ylab = "Global Active Power (kilowatts)"))
+lines(data_set$DateTime, data_set$GlobalActivePower)
 
-dev.copy(png, file="plot1.png", width = 480, height = 480)
+with(data_set, plot(data_set$DateTime, data_set$Voltage, type = "n", xlab = "datetime", ylab = "Voltage"))
+lines(data_set$DateTime, data_set$Voltage)
+
+with(data_set, plot(data_set$DateTime, data_set$SubMetering1, type = "n", xlab = "", ylab = "Energy sub metering"))
+lines(data_set$DateTime, data_set$SubMetering1, col = "black")
+lines(data_set$DateTime, data_set$SubMetering2, col = "red")
+lines(data_set$DateTime, data_set$SubMetering3, col = "blue")
+legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), col = c("black", "red", "blue"), lty = c(1,1,1))
+
+with(data_set, plot(data_set$DateTime, data_set$GlobalReactivePower, type = "n", xlab = "datetime", ylab = "global_reactive_power"))
+lines(data_set$DateTime, data_set$GlobalReactivePower)
+
+dev.copy(png, file="plot4.png", width = 480, height = 480)
 dev.off()

@@ -41,7 +41,9 @@ data_set <- data_set %>% unite("DateTime", Date:Time, remove= FALSE, sep = " ")
 data_set$DateTime <- as.POSIXct(data_set$DateTime, f= "%Y-%m-%d %H:%M:%S")
 data_set$Time <- as.POSIXct(data_set$Time, f = "%H:%M:%S")
 
-hist(data_set$GlobalActivePower, main = "Global Active Power", xlab ="Global Active Power (kilowatts)",col = "red")
+# hist(data_set$GlobalActivePower, main = "Global Active Power", xlab ="Global Active Power (kilowatts)",col = "red")
+with(data_set, plot(data_set$DateTime, data_set$GlobalActivePower, type = "n", xlab = "", ylab = "Global Active Power (kilowatts)"))
+lines(data_set$DateTime, data_set$GlobalActivePower)
 
-dev.copy(png, file="plot1.png", width = 480, height = 480)
+dev.copy(png, file="plot2.png", width = 480, height = 480)
 dev.off()
